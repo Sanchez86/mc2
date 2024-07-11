@@ -1,0 +1,19 @@
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #333;
+  margin: 5px;
+  padding-left: 10px;
+}
+
+.item button {
+  height: 40px;
+  background-color: #333;
+  color: #fff;
+  border: 0;
+}
+
+.done {
+  text-decoration: line-through;
+}

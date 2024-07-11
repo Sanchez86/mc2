@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { Component } from "react";
+import { connect } from "react-redux";
+import { addTodo, fetchTodos } from "./actions";
+import { getAllTodos, selectLoadingTodos } from "./selectors";
+import Header from "./components/Header/Header";
+import TodoAdd from "./components/TodoAdd/TodoAdd";
+import TodoList from "./components/TodoList/TodoList";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import styles from "./App.module.css";
+import Loader from "./components/Loader/Loader";
+
+class App extends Component {
+  componentDidMount() {
+    this.props.fetchTodos();
+  }
+
+  render() {
+    const { todos, addTodo, isLoading } = this.props;
+
+    return (
+      <div className={styles.app}>
+        <Header countTodos={todos.length} />
+        <TodoAdd addTodo={addTodo} />
+        {isLoading ? <Loader /> : <TodoList todos={todos} />}
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  todos: getAllTodos(state),
+  isLoading: selectLoadingTodos(state),
+});
+
+const mapDispatchToProps = {
+  addTodo,
+  fetchTodos,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
