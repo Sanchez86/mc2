@@ -9,28 +9,27 @@ class TodoAdd extends Component {
 
     this.state = {
       title: "",
-      isActive: true
+      isActive: true,
     };
   }
 
   handleAddTodo = () => {
     const { addTodo } = this.props;
     addTodo(this.state.title);
-    this.setState({title: '', isActive: true});
-  }
+    this.setState({ title: "", isActive: true });
+  };
 
   handleTitle = (e) => {
-    this.setState({ title: e.target.value });
-
-    if(this.state.title.length > 1) {
-        this.setState({isActive: false});
-    } else {
-      this.setState({isActive: true});
-    }
-  }
+    this.setState({ title: e.target.value }, () => {
+      if (this.state.title.length > 1) {
+        this.setState({ isActive: false });
+      } else {
+        this.setState({ isActive: true });
+      }
+    });
+  };
 
   render() {
-
     return (
       <div className={styles.add}>
         <input
@@ -38,7 +37,9 @@ class TodoAdd extends Component {
           value={this.state.title}
           onChange={(e) => this.handleTitle(e)}
         />
-        <button disabled={this.state.isActive} onClick={this.handleAddTodo}>Add</button>
+        <button disabled={this.state.isActive} onClick={this.handleAddTodo}>
+          Add
+        </button>
       </div>
     );
   }
